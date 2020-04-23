@@ -1,0 +1,35 @@
+<h1>Welcome to our ChatApp</h1>
+
+<div class='register'>
+    <form action='/users' method='post'>
+        <input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+        <p>name</p>
+        <input type="text" name="users[name]" >
+        <p>email</p>
+        <input type="text" name="users[email]" >
+        <p>password</p>
+        <input type="password" name="users[password]" >
+        <p>password confirmation</p>
+        <input type="password" name="users[password_confirmation]" >
+
+        <input type="submit" value="Register">
+
+    </form>
+</div>
+
+<div class='login'>
+    <h3>Please Login Below</h3>
+
+    <% if flash[:loginerror] %>
+        <h3 class='error'> <%= flash[:loginerror] %></h3>
+    <% end %>
+    <form action='/login' method='post'>
+        <input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+        <p>email</p>
+        <input type="text" name="email" >
+        <p>password</p>
+        <input type="password" name="password" >
+        <input type="submit" value="Login">
+
+    </form>
+</div>

@@ -1,0 +1,68 @@
+<h1>Welcome to the <%= @chat.subject %> Discussion:</h1>
+<h3><a href="<%= user_path(@user) %>">Go Home</a></h3>
+
+<ul>
+<h3>Users</h3>
+<% @chat.users.each do |user| %>
+<li><%= user.name %> </li>
+<% end %>
+</ul>
+<div class='messages'><p>Messages for this chat:</p>
+<% @chat.messages.each do |message|%>
+<div class='message'><p>At <%= message.created_at %> <%= message.user.name %> said:</p>
+<p><%= message.message %></p>
+
+<form action="/chats/<%= @chat.id%>/messages/<%= message.id%>" method="post">
+<input type="hidden" name="_method" value="delete">
+<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+<input type="submit" value="Delete Message">
+</form>
+</div>
+<% end %>
+</div>
+
+<% if flash[:status] %>
+    <p> <% flash[:status].each do |status| %> 
+        <%= status %>
+        <% end %>
+    </p>
+<% end %>
+<hr>
+<form action="/chats/<%= @chat.id%>/messages" method="post">
+<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+<input type="text" name="message">
+<input type="submit" value="Post Message">
+</form>
+
+<hr>
+<% if @users.count > 0 %>
+<h3>Add User to Chat</h3>
+<form action="/chats/<%= @chat.id%>/adduser" method="post">
+<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+<select name="userid">
+<% @users.each do |user| %>
+
+<option value="<%= user.id %>"><%= user.name %></option>
+<% end %>
+</select>
+<input type="submit" value="Add User">
+</form>
+<% else %>
+<h3> No Users To add </h3>
+<% end %>
+<hr>
+<% if @chat.users.count > 0 %>
+<h3>Remove User From the Chat</h3>
+<form action="/chats/<%= @chat.id%>/removeuser" method="post">
+<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+<select name="userid">
+<% @chat.users.each do |user| %>
+
+<option value="<%= user.id %>"><%= user.name %></option>
+<% end %>
+</select>
+<input type="submit" value="Remove User">
+</form>
+<% else %>
+<h3> No Users To Remove </h3>
+<% end %>

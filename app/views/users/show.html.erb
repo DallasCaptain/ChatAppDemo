@@ -1,0 +1,20 @@
+<h1>Welcome <%= @user.name %></h1>
+<a href="<%= logout_path%>">Logout</a>
+<table>
+<tr> 
+    <th>Topic</th>
+    <th>Actions</th>
+</tr>
+<% @user.chats.each do |chat| %>
+<tr>
+<td><%= chat.subject %></td>
+<td><a href="/chats/<%= chat.id %>">View</a></td>
+</tr>
+<% end %>
+</table>
+
+<form action="<%= chats_path %>" method="post">
+<input type="hidden" name="authenticity_token" value='<%= form_authenticity_token %>'>
+<input type="text" name="subject">
+<input type="submit" value="Start New Chat">
+</form>
